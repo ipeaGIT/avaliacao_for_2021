@@ -48,9 +48,7 @@ create_accessibility_data <- function(city,
   # save object and return path
   # change name of file depending if it's only transit or all modes access.
   
-  dir_path <- file.path(
-    "../../data/avaliacao_intervencoes", city, "output_access"
-  )
+  dir_path <- file.path("data", "output_access")
   if (!dir.exists(dir_path)) dir.create(dir_path)
   
   file_path <- ifelse(
@@ -280,9 +278,7 @@ calculate_access_diff <- function(city,
   
   # save object and return path
   
-  dir_path <- file.path(
-    "../../data/avaliacao_intervencoes", city, "output_access"
-  )
+  dir_path <- file.path("data", "output_access")
   if (!dir.exists(dir_path)) dir.create(dir_path)
   
   file_path <- ifelse(

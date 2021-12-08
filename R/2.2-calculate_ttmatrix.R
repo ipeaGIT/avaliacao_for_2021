@@ -1,3 +1,55 @@
+# scenario <- tar_read(scenarios)[1]
+# city <- tar_read(both_cities)[1]
+setup_graph_structure <- function(city, scenario) {
+  r5_dir <- "r5"
+  if (!dir.exists(r5_dir)) dir.create(r5_dir)
+  
+  graph_dir <- file.path(r5_dir, "graph")
+  if (!dir.exists(graph_dir)) dir.create(graph_dir)
+  
+  graph_subdir <- file.path(graph_dir, paste0(city, "_", scenario))
+  if (!dir.exists(graph_subdir)) dir.create(graph_subdir)
+  
+  gtfs_etufor <- ifelse(
+    scenario == "depois",
+    "data-raw/gtfs/gtfs_for_etufor_2019-10_depois.zip",
+    "data-raw/gtfs/gtfs_for_etufor_2019-10.zip"
+  )
+  gtfs_metrofor <- ifelse(
+    scenario == "antes",
+    "data-raw/gtfs/gtfs_for_metrofor_2021-01.zip",
+    "data-raw/gtfs/gtfs_for_metrofor_2021-01_depois.zip"
+  )
+  
+  invisible(
+    file.copy(
+      from = "data-raw/malha_viaria_for.pbf",
+      to = file.path(graph_subdir, "malha_viaria_for.pbf")
+    )
+  )
+  invisible(
+    file.copy(
+      from = "data-raw/topografia3_for.tif",
+      to = file.path(graph_subdir, "topografia3_for.tif")
+    )
+  ) 
+  invisible(
+    file.copy(
+      from = gtfs_etufor,
+      to = file.path(graph_subdir, basename(gtfs_etufor))
+    )
+  )
+  invisible(
+    file.copy(
+      from = gtfs_metrofor,
+      to = file.path(graph_subdir, basename(gtfs_metrofor))
+    )
+  )
+  
+  return(graph_subdir)
+}
+
+
 # city <- tar_read(both_cities)[1]
 # grid_path <- tar_read(grid_path)[1]
 create_points_r5 <- function(city, grid_path) {
@@ -27,11 +79,7 @@ create_points_r5 <- function(city, grid_path) {
   
   # save object and return path
   
-  file_path <- paste0(
-    "../../data/avaliacao_intervencoes/r5/points/points_",
-    city,
-    "_09_2019.csv"
-  )
+  file_path <- paste0("data/points_", city, "_09_2019.csv")
   fwrite(centroids, file_path)
   
   return(file_path)
@@ -40,7 +88,7 @@ create_points_r5 <- function(city, grid_path) {
 
 
 # city <- tar_read(both_cities)[1]
-# scenario <- tar_read(before_after)[1]
+# scenario <- tar_read(scenarios)[1]
 # graph <- tar_read(graph)[1]
 # points_path <- tar_read(points_path)[1]
 transit_ttm <- function(city, scenario, graph, points_path) {
@@ -71,9 +119,10 @@ transit_ttm <- function(city, scenario, graph, points_path) {
   
   # save object and return path
   
-  dir_path <- file.path(
-    "../../data/avaliacao_intervencoes", city, "ttmatrix", scenario
-  )
+  ttmatrix_dir <- file.path("data", "ttmatrix")
+  if (!dir.exists(ttmatrix_dir)) dir.create(ttmatrix_dir)
+  
+  dir_path <- file.path(ttmatrix_dir, scenario)
   if (!dir.exists(dir_path)) dir.create(dir_path)
   
   file_path <- file.path(dir_path, "ttmatrix_transit.rds")
@@ -85,7 +134,7 @@ transit_ttm <- function(city, scenario, graph, points_path) {
 
 
 # city <- tar_read(only_for)
-# scenario <- tar_read(before_after)[1]
+# scenario <- tar_read(scenarios)[1]
 # graph <- tar_read(graph)[1]
 # points_path <- tar_read(points_path)[1]
 bike_ttm <- function(city, scenario, graph, points_path) {
@@ -114,9 +163,10 @@ bike_ttm <- function(city, scenario, graph, points_path) {
   
   # save object and return path
   
-  dir_path <- file.path(
-    "../../data/avaliacao_intervencoes", city, "ttmatrix", scenario
-  )
+  ttmatrix_dir <- file.path("data", "ttmatrix")
+  if (!dir.exists(ttmatrix_dir)) dir.create(ttmatrix_dir)
+  
+  dir_path <- file.path("data", "ttmatrix", scenario)
   if (!dir.exists(dir_path)) dir.create(dir_path)
   
   file_path <- file.path(dir_path, "ttmatrix_bike.rds")
@@ -128,7 +178,7 @@ bike_ttm <- function(city, scenario, graph, points_path) {
 
 
 # city <- tar_read(only_for)
-# scenario <- tar_read(before_after)[1]
+# scenario <- tar_read(scenarios)[1]
 # graph <- tar_read(graph)[1]
 # points_path <- tar_read(points_path)[1]
 # bike_parks_path <- tar_read(bike_parks_path)[1]
@@ -228,9 +278,10 @@ bfm_ttm <- function(city, scenario, graph, points_path, bike_parks_path) {
   
   # save object and return path
   
-  dir_path <- file.path(
-    "../../data/avaliacao_intervencoes", city, "ttmatrix", scenario
-  )
+  ttmatrix_dir <- file.path("data", "ttmatrix")
+  if (!dir.exists(ttmatrix_dir)) dir.create(ttmatrix_dir)
+  
+  dir_path <- file.path("data", "ttmatrix", scenario)
   if (!dir.exists(dir_path)) dir.create(dir_path)
   
   file_path <- file.path(dir_path, "ttmatrix_bike_first_mile.rds")
@@ -242,7 +293,7 @@ bfm_ttm <- function(city, scenario, graph, points_path, bike_parks_path) {
 
 
 # city <- tar_read(only_for)
-# scenario <- tar_read(before_after)[1]
+# scenario <- tar_read(scenarios)[1]
 # bike_matrix_path <- tar_read(bike_matrix)[1]
 # transit_matrix_path <- tar_read(transit_matrix)[1]
 # bfm_matrix_path <- tar_read(bike_first_mile_matrix)[1]
@@ -269,9 +320,10 @@ join_ttms <- function(city,
   
   # save object and return path
   
-  dir_path <- file.path(
-    "../../data/avaliacao_intervencoes", city, "ttmatrix", scenario
-  )
+  ttmatrix_dir <- file.path("data", "ttmatrix")
+  if (!dir.exists(ttmatrix_dir)) dir.create(ttmatrix_dir)
+  
+  dir_path <- file.path("data", "ttmatrix", scenario)
   if (!dir.exists(dir_path)) dir.create(dir_path)
   
   file_path <- file.path(dir_path, "ttmatrix_full.rds")
@@ -319,7 +371,7 @@ exploratory_report <- function(city,
   
   # save exploratory analysis report to new folder
   
-  report_dir <- file.path("../../data/avaliacao_intervencoes", city, "reports")
+  report_dir <- file.path("data", "reports")
   if (!dir.exists(report_dir)) dir.create(report_dir)
   
   filename <- normalizePath(

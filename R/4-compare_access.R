@@ -93,11 +93,7 @@ create_boxplots <- function(city,
       
       # return the result so the target follows the file
       
-      dir_path <- file.path(
-        "../../data/avaliacao_intervencoes",
-        city,
-        "figures"
-      )
+      dir_path <- file.path("figures")
       if (!dir.exists(dir_path)) dir.create(dir_path)
       
       dir_path <- file.path(dir_path, "boxplot_difference")
@@ -177,7 +173,7 @@ create_dist_maps <- function(city,
   if (city == "for") {
     
     gtfs <-  gtfstools::read_gtfs(
-      "../../data/avaliacao_intervencoes/r5/graph/for_depois/gtfs_for_metrofor_2021-01_depois.zip"
+      "data-raw/gtfs/gtfs_for_metrofor_2021-01_depois.zip"
     )
     desired_trips <- gtfs$trips[
       gtfs$routes,
@@ -219,27 +215,6 @@ create_dist_maps <- function(city,
         levels = c("Antes", "Depois (Previsto)", "Depois (Alternativo)")
       )
     ]
-    
-  } else if (city == "goi") {
-    
-    gtfs <- gtfstools::read_gtfs(
-      "../../data/avaliacao_intervencoes/r5/graph/goi_depois/gtfs_goi_rmtc_2019-10_depois.zip"
-    )
-    
-    desired_trips <- gtfs$trips[
-      gtfs$routes,
-      on = "route_id",
-      `:=`(route_id = i.route_id)
-    ]
-    desired_trips <- desired_trips[grepl("BRT", route_id)]
-    desired_trips <- desired_trips[desired_trips[, .I[1], by = shape_id]$V1]
-    desired_trips <- desired_trips$trip_id
-    
-    transit_shapes <- gtfstools::get_trip_geometry(
-      gtfs,
-      trip_id = desired_trips,
-      file = "shapes"
-    )
     
   }
 
@@ -303,11 +278,7 @@ create_dist_maps <- function(city,
           panel.background = element_rect(fill = "#aadaff", color = NA)
         )
       
-      dir_path <- file.path(
-        "../../data/avaliacao_intervencoes",
-        city,
-        "figures"
-      )
+      dir_path <- file.path("figures")
       if (!dir.exists(dir_path)) dir.create(dir_path)
       
       dir_path <- file.path(dir_path, "map_distribution")
@@ -384,7 +355,7 @@ create_diff_maps <- function(city,
   if (city == "for") {
     
     gtfs <-  gtfstools::read_gtfs(
-      "../../data/avaliacao_intervencoes/r5/graph/for_depois/gtfs_for_metrofor_2021-01_depois.zip"
+      "data-raw/gtfs/gtfs_for_metrofor_2021-01_depois.zip"
     )
     desired_trips <- gtfs$trips[
       gtfs$routes,
@@ -403,27 +374,6 @@ create_diff_maps <- function(city,
     transit_shapes <- setDT(transit_shapes)[
       !(trip_id == "LL-0.1-1" & origin_file == "stop_times")
     ]
-    
-  } else if (city == "goi") {
-    
-    gtfs <- gtfstools::read_gtfs(
-      "../../data/avaliacao_intervencoes/r5/graph/goi_depois/gtfs_goi_rmtc_2019-10_depois.zip"
-    )
-    
-    desired_trips <- gtfs$trips[
-      gtfs$routes,
-      on = "route_id",
-      `:=`(route_id = i.route_id)
-    ]
-    desired_trips <- desired_trips[grepl("BRT", route_id)]
-    desired_trips <- desired_trips[desired_trips[, .I[1], by = shape_id]$V1]
-    desired_trips <- desired_trips$trip_id
-    
-    transit_shapes <- gtfstools::get_trip_geometry(
-      gtfs,
-      trip_id = desired_trips,
-      file = "shapes"
-    )
     
   }
   
@@ -506,11 +456,7 @@ create_diff_maps <- function(city,
       
       # save the result and return the path
       
-      dir_path <- file.path(
-        "../../data/avaliacao_intervencoes",
-        city,
-        "figures"
-      )
+      dir_path <- file.path("figures")
       if (!dir.exists(dir_path)) dir.create(dir_path)
       
       dir_path <- file.path(dir_path, "map_difference")
@@ -607,7 +553,7 @@ plot_summary <- function(city,
   # read transit routes shapes
     
   gtfs <-  gtfstools::read_gtfs(
-    "../../data/avaliacao_intervencoes/r5/graph/for_depois/gtfs_for_metrofor_2021-01_depois.zip"
+    "data-raw/gtfs/gtfs_for_metrofor_2021-01_depois.zip"
   )
   desired_trips <- gtfs$trips[
     gtfs$routes,
@@ -919,11 +865,7 @@ plot_summary <- function(city,
       
       # save the result and return the path
       
-      dir_path <- file.path(
-        "../../data/avaliacao_intervencoes",
-        city,
-        "figures"
-      )
+      dir_path <- file.path("figures")
       if (!dir.exists(dir_path)) dir.create(dir_path)
       
       dir_path <- file.path(dir_path, "summary_bfm_bike_transit")
@@ -1070,11 +1012,7 @@ create_palma_bars <- function(city,
       
       # save and return the result
       
-      dir_path <- file.path(
-        "../../data/avaliacao_intervencoes",
-        city,
-        "figures"
-      )
+      dir_path <- file.path("figures")
       if (!dir.exists(dir_path)) dir.create(dir_path)
       
       dir_path <- file.path(dir_path, "columns_palma")
@@ -1220,11 +1158,7 @@ compare_palma <- function(city, access_paths, scenarios, grid_path) {
   
   # save the result and store the path
   
-  dir_path <- file.path(
-    "../../data/avaliacao_intervencoes",
-    city,
-    "figures"
-  )
+  dir_path <- file.path("figures")
   if (!dir.exists(dir_path)) dir.create(dir_path)
   
   dir_path <- file.path(dir_path, "palma_comparison")
@@ -1394,11 +1328,7 @@ compare_gains <- function(city, access_diff_path, grid_path) {
   
   # save the result and store the path
   
-  dir_path <- file.path(
-    "../../data/avaliacao_intervencoes",
-    city,
-    "figures"
-  )
+  dir_path <- file.path("figures")
   if (!dir.exists(dir_path)) dir.create(dir_path)
   
   dir_path <- file.path(dir_path, "access_gains_comparison")

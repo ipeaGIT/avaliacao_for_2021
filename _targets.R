@@ -15,9 +15,9 @@ suppressPackageStartupMessages({
   library(dplyr)
 })
 
-source("R/3.2-calculate_ttmatrix.R", encoding = "UTF-8")
-source("R/4-calculate_access.R", encoding = "UTF-8")
-source("R/5-compare_access.R", encoding = "UTF-8")
+source("R/2.2-calculate_ttmatrix.R", encoding = "UTF-8")
+source("R/3-calculate_access.R", encoding = "UTF-8")
+source("R/4-compare_access.R", encoding = "UTF-8")
 
 list(
   tar_target(
@@ -26,7 +26,7 @@ list(
   ),
   tar_target(
     both_cities,
-    c("for")
+    "for"
   ),
   tar_target(
     scenarios,
@@ -38,7 +38,7 @@ list(
   ),
   tar_target(
     tt_thresholds,
-    c(60)
+    60
   ),
   tar_target(
     exploratory_skeleton,
@@ -48,21 +48,13 @@ list(
   ),
   tar_target(
     bike_parks_path,
-    paste0(
-      "../../data/avaliacao_intervencoes/r5/points/bike_parks_",
-      only_for, "_", scenarios,
-      ".csv"
-    ),
+    paste0("data-raw/bike_parks_", only_for, "_", scenarios, ".csv"),
     pattern = cross(only_for, scenarios),
     format = "file"
   ),
   tar_target(
     grid_path,
-    paste0(
-      "../../data/acesso_oport/hex_agregados/2019/hex_agregado_",
-      both_cities,
-      "_09_2019.rds"
-    ),
+    paste0("data-raw/hex_agregado_", both_cities, "_09_2019.rds"),
     pattern = map(both_cities),
     format = "file"
   ),
@@ -74,10 +66,7 @@ list(
   ),
   tar_target(
     graph,
-    paste0(
-      "../../data/avaliacao_intervencoes/r5/graph/",
-      both_cities, "_", scenarios
-    ),
+    setup_graph_structure(both_cities, scenarios),
     format = "file",
     pattern = cross(both_cities, scenarios)
   ),
