@@ -1,13 +1,17 @@
 
 # Impactos da expansão do Metrô de Fortaleza sobre o acesso a oportunidades de emprego, saúde e educação
+<img align="right" src="https://github.com/ipeaGIT/avaliacao_for_2021/raw/master/figures/README-cover-td-2767-ipea.png?raw=true" alt="logo" width="140"> 
+
 
 Este repositório contém os dados e o código utilizado no desenvolvimento
 do Texto para Discussão **Impactos da expansão do Metrô de Fortaleza
 sobre o acesso a oportunidades de emprego, saúde e educação**,
-produzidos no âmbito do Projeto Acesso Oportunidades (IPEA) em parceria
-com o Ministério do Desenvolvimento Regional.
+produzidos no âmbito do [Projeto Acesso Oportunidades (IPEA)](https://www.ipea.gov.br/acessooportunidades/) em parceria
+com o Ministério do Desenvolvimento Regional. O estudo está disponível para download nos links abaixo:
+- [Estudo completo](https://www.ipea.gov.br/portal/images/stories/PDFs/TDs/220518_218180_td_2767_web.pdf)
+- [Sumário Executivo](https://www.ipea.gov.br/portal/images/stories/PDFs/TDs/220518_218180_td_2767_sumex.pdf)
 
-A divulgação e publicização do repositório tem como objetivo garantir a
+A divulgação e publicização deste repositório tem como objetivo garantir a
 transparência do trabalho realizado. Os dados e códigos necessários para
 rodar as análises do trabalho estão dispostos conforme explicado na
 seção *[Estrutura dos arquivos](#estrutura-dos-arquivos)*, e podem ser
